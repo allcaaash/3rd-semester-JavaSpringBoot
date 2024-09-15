@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.ulanov.MySecondTestAppSpringBoot.exception.UnsupportedCodeException;
 import ru.ulanov.MySecondTestAppSpringBoot.exception.ValidationFailedException;
 import ru.ulanov.MySecondTestAppSpringBoot.model.Request;
 import ru.ulanov.MySecondTestAppSpringBoot.model.Response;
@@ -39,6 +40,20 @@ public class MyController {
                 .errorCode("")
                 .errorMessage("")
                 .build();
+
+        try {
+            validationService.isCorrectUid(request);
+        } catch (UnsupportedCodeException e) {
+            response.setCode("failed");
+            response.setErrorCode("UnsupportedCodeException");
+            response.setErrorMessage("Validation Error");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            response.setCode("failed");
+            response.setErrorCode("UnknownException");
+            response.setErrorMessage("An unexpected error has occurred");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         try {
             validationService.isValid(bindingResult);
