@@ -43,20 +43,12 @@ public class MyController {
 
         try {
             validationService.isCorrectUid(request);
+            validationService.isValid(bindingResult);
         } catch (UnsupportedCodeException e) {
             response.setCode("failed");
             response.setErrorCode("UnsupportedCodeException");
             response.setErrorMessage("Validation Error");
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            response.setCode("failed");
-            response.setErrorCode("UnknownException");
-            response.setErrorMessage("An unexpected error has occurred");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        try {
-            validationService.isValid(bindingResult);
         } catch (ValidationFailedException e) {
             response.setCode("failed");
             response.setErrorCode("UnknownException");
