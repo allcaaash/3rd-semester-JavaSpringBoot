@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Automobile Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/index}">Automobile Management System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item" th:if="${#request.userPrincipal == null}">
+                    <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item" th:if="${#request.userPrincipal == null}">
+                    <a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>
+                </li>
+                <li class="nav-item" th:if="${#request.userPrincipal != null}">
+                    <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+
+    <hr/>
+    <a th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_USER'')')}" th:href="@{/addAutomobileForm}" class="btn btn-primary">Add Automobile</a>
+    <br/><br/>
+    <table class="table table-bordered table-striped" id="automobileTable">
+
+        <thead>
+        <tr>
+            <th>Mark</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Price</th>
+            <th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">User</th>
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr th:each="automobile: ${automobiles}">
+            <td th:text="${automobile.mark}" />
+            <td th:text="${automobile.model}" />
+            <td th:text="${automobile.year}" />
+            <td th:text="${automobile.price}" />
+            <td th:text="${automobile.user.email}" />
+            <td>
+                <a th:href="@{/showUpdateForm(automobileId=${automobile.id})}" class="btn btn-info">Update</a>
+
+                <a th:href="@{/deleteAutomobile(automobileId=${automobile.id})}" class="btn btn-danger ml-2">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#automobileTable").DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': [-1] /* 1st one, start by the right */
+            }]
+        });
+    })
+</script>
+</body></html>
