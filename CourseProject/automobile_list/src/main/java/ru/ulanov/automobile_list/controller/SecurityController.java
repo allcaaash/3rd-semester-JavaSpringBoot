@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.ulanov.automobile_list.dto.UserDto;
-import ru.ulanov.automobile_list.entity.Automobile;
 import ru.ulanov.automobile_list.entity.Role;
 import ru.ulanov.automobile_list.entity.User;
 import ru.ulanov.automobile_list.repository.AutomobileRepo;
@@ -22,9 +21,7 @@ import ru.ulanov.automobile_list.repository.UserRepo;
 import ru.ulanov.automobile_list.service.UserService;
 
 import java.security.Principal;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller

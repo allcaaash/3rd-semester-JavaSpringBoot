@@ -13,7 +13,6 @@ import ru.ulanov.automobile_list.entity.User;
 import ru.ulanov.automobile_list.repository.AutomobileRepo;
 import ru.ulanov.automobile_list.service.UserService;
 
-import java.security.Principal;
 import java.util.Optional;
 
 @Slf4j
