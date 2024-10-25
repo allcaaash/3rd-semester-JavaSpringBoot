@@ -57,8 +57,10 @@
             <td th:text="${automobile.model}" />
             <td th:text="${automobile.year}" />
             <td th:text="${automobile.price}" />
-            <td th:text="${automobile.user.email}" />
-            <td>
+            <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"
+                th:text="${automobile.user.email}"></td>
+
+            <td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_USER'')')}">
                 <a th:href="@{/showUpdateForm(automobileId=${automobile.id})}" class="btn btn-info">Update</a>
 
                 <a th:href="@{/deleteAutomobile(automobileId=${automobile.id})}" class="btn btn-danger ml-2">Delete</a>
